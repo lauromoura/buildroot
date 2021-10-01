@@ -15,7 +15,6 @@ WESTEROS_CONF_OPTS = \
 	--prefix=/usr/ \
 	--enable-rendergl=yes \
 	--enable-sbprotocol=yes \
-	--enable-ldbprotocol=yes \
 	--enable-xdgv5=yes \
 	--enable-app=yes \
 	--enable-test=yes \
@@ -44,6 +43,7 @@ else ifeq ($(BR2_PACKAGE_HAS_NEXUS),y)
 		$(BCM_REFSW_MAKE_ENV)	
 	WESTEROS_DEPENDENCIES += wayland-egl-bnxs bcm-refsw
 else ifeq ($(BR2_PACKAGE_LIBDRM),y)
+	WESTEROS_CONF_OPTS += --enable-ldbprotocol=yes
 	WESTEROS_CONF_ENV += CXXFLAGS="$(TARGET_CXXFLAGS) -DWESTEROS_PLATFORM_DRM"
 	WESTEROS_CONF_ENV += LDFLAGS="-L$(@D)/.libs -lEGL -lGLESv2"
 endif # BR2_PACKAGE_WESTEROS_SOC_RPI

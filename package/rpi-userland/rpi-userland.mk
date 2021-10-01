@@ -13,6 +13,16 @@ RPI_USERLAND_CONF_OPTS = -DVMCS_INSTALL_PREFIX=/usr
 
 RPI_USERLAND_PROVIDES = libopenmax libopenvg
 
+ifeq ($(BR2_PACKAGE_WAYLAND),y)
+RPI_USERLAND_DEPENDENCIES += wayland
+RPI_USERLAND_CONF_OPTS += -DBUILD_WAYLAND=1
+RPI_USERLAND_POST_PATCH_HOOKS += RPI_USERLAND_WAYLAND_PATCHES
+define RPI_USERLAND_WAYLAND_PATCHES
+	patch -d $(@D)/ -p1 < package/rpi-userland/wayland/0002-wayland-support.patch
+	patch -d $(@D)/ -p1 < package/rpi-userland/wayland/0007-brcmEGL-wayland-support.patch
+endef
+endif
+
 ifeq ($(BR2_PACKAGE_RPI_USERLAND_HELLO),y)
 
 RPI_USERLAND_CONF_OPTS += -DALL_APPS=ON
@@ -43,6 +53,7 @@ endef
 
 define RPI_USERLAND_POST_TARGET_LINKS
 	ln -sf libEGL.so $(TARGET_DIR)/usr/lib/libEGL.so.1
+	ln -sf libEGL.so $(TARGET_DIR)/usr/lib/libEGL.so.2
 	ln -sf libGLESv2.so $(TARGET_DIR)/usr/lib/libGLESv2.so.2
 endef
 
