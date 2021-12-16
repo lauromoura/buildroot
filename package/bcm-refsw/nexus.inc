@@ -35,7 +35,23 @@ endef
 BCM_NEXUS_CRYPTOGRAPHY_DIR = /BSEAV/lib/security
 ifeq ($(BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY),y)
 ifeq ($(BR2_PACKAGE_WPEFRAMEWORK_CRYPTOGRAPHY_IMPLEMENTATION_NEXUS),y)
+define BCM_REFSW_BUILD_CRYPTOGRAPHY
+	$(TARGET_CONFIGURE_OPTS) \
+	$(TARGET_MAKE_ENV) \
+	$(BCM_REFSW_CONF_OPTS) \
+	$(BCM_REFSW_MAKE_ENV) \
+		$(MAKE) -C $(@D)/BSEAV/lib/security/bcrypt install
+	$(TARGET_CONFIGURE_OPTS) \
+	$(TARGET_MAKE_ENV) \
+	$(BCM_REFSW_CONF_OPTS) \
+	$(BCM_REFSW_MAKE_ENV) \
+		$(MAKE) -C $(@D)/BSEAV/lib/security/common_drm install
+endef
 define BCM_REFSW_INSTALL_CRYPTOGRAPHY_DEV
+	$(INSTALL) -m 644 -D $(BCM_REFSW_OUTPUT)/BSEAV/lib/security/common_drm/lib/Zeus4x/retail/libcmndrm.so $(1)/usr/lib
+	$(INSTALL) -m 644 -D $(BCM_REFSW_OUTPUT)/BSEAV/lib/security/common_drm/libcmndrm_tl.so $(1)/usr/lib
+	$(INSTALL) -m 644 -D $(BCM_REFSW_OUTPUT)/BSEAV/lib/drmrootfs/libdrmrootfs.so $(1)/usr/lib
+	$(INSTALL) -m 644 -D $(BCM_REFSW_OUTPUT)/BSEAV/lib/security/bcrypt/libbcrypt.so $(1)/usr/lib
 	$(INSTALL) -D $(@D)/$(BCM_NEXUS_CRYPTOGRAPHY_DIR)/common_drm/include/drm_types.h $(1)/usr/include/refsw/
 	$(INSTALL) -D $(@D)/$(BCM_NEXUS_CRYPTOGRAPHY_DIR)/common_drm/include/drm_common.h $(1)/usr/include/refsw/
 	$(INSTALL) -D $(@D)/$(BCM_NEXUS_CRYPTOGRAPHY_DIR)/common_drm/include/drm_common_swcrypto_types.h $(1)/usr/include/refsw/
@@ -47,6 +63,13 @@ define BCM_REFSW_INSTALL_CRYPTOGRAPHY_DEV
 	$(INSTALL) -D $(@D)/$(BCM_NEXUS_CRYPTOGRAPHY_DIR)/common_crypto/include/common_crypto.h $(1)/usr/include/refsw/
 	$(INSTALL) -D $(@D)/$(BCM_NEXUS_CRYPTOGRAPHY_DIR)/common_crypto/include/common_crypto_secv1.h $(1)/usr/include/refsw/
 	$(INSTALL) -D $(@D)/$(BCM_NEXUS_CRYPTOGRAPHY_DIR)/common_crypto/include/common_crypto_secv2.h $(1)/usr/include/refsw/
+	$(INSTALL) -D $(@D)/$(BCM_NEXUS_CRYPTOGRAPHY_DIR)/../drmrootfs/drm_data.h $(1)/usr/include/refsw/
+endef
+define BCM_REFSW_INSTALL_CRYPTOGRAPHY
+	$(INSTALL) -m 644 -D $(BCM_REFSW_OUTPUT)/BSEAV/lib/security/common_drm/lib/Zeus4x/retail/libcmndrm.so $(1)/usr/lib
+	$(INSTALL) -m 644 -D $(BCM_REFSW_OUTPUT)/BSEAV/lib/security/common_drm/libcmndrm_tl.so $(1)/usr/lib
+	$(INSTALL) -m 644 -D $(BCM_REFSW_OUTPUT)/BSEAV/lib/drmrootfs/libdrmrootfs.so $(1)/usr/lib
+	$(INSTALL) -m 644 -D $(BCM_REFSW_OUTPUT)/BSEAV/lib/security/bcrypt/libbcrypt.so $(1)/usr/lib
 endef
 endif
 endif

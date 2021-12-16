@@ -1,0 +1,48 @@
+diff -pruN bcm-refsw-19.2.orig/BSEAV/lib/security/bcrypt/b_bcrypt_targets.inc bcm-refsw-19.2/BSEAV/lib/security/bcrypt/b_bcrypt_targets.inc
+--- bcm-refsw-19.2.orig/BSEAV/lib/security/bcrypt/b_bcrypt_targets.inc	2020-06-24 14:44:51.000000000 +0530
++++ bcm-refsw-19.2/BSEAV/lib/security/bcrypt/b_bcrypt_targets.inc	2021-12-16 16:11:17.688197818 +0530
+@@ -45,12 +45,12 @@ endif
+ 
+ .PHONY: b_bcrypt_target_dummy b_bcrypt_target_build b_bcrypt_target_clean
+ 
+-include $(NEXUS_TOP)/../BSEAV/opensource/openssl/b_openssl_targets.inc
+-B_BCRYPT_OTHER_BUILDS += b_openssl_target_build
+-B_BCRYPT_OTHER_CLEANS += b_openssl_target_clean
+-B_BCRYPT_OTHER_CLEAN_ALL += b_openssl_target_clean_all
+-B_BCRYPT_BUILD_FILES += $(B_OPENSSL_BUILD_FILES)
+-B_OPENSSL_TARGET_MAKEFLAGS += $(B_BCRYPT_TARGET_MAKEFLAGS)
++# include $(NEXUS_TOP)/../BSEAV/opensource/openssl/b_openssl_targets.inc
++# B_BCRYPT_OTHER_BUILDS += b_openssl_target_build
++# B_BCRYPT_OTHER_CLEANS += b_openssl_target_clean
++# B_BCRYPT_OTHER_CLEAN_ALL += b_openssl_target_clean_all
++# B_BCRYPT_BUILD_FILES += $(B_OPENSSL_BUILD_FILES)
++# B_OPENSSL_TARGET_MAKEFLAGS += $(B_BCRYPT_TARGET_MAKEFLAGS)
+ 
+ b_bcrypt_target_dummy:
+ 	@echo "Error - please define your default rule before including any b_xxx_targets.inc files"
+diff -pruN bcm-refsw-19.2.orig/BSEAV/lib/security/bcrypt/Makefile bcm-refsw-19.2/BSEAV/lib/security/bcrypt/Makefile
+--- bcm-refsw-19.2.orig/BSEAV/lib/security/bcrypt/Makefile	2020-06-24 14:44:51.000000000 +0530
++++ bcm-refsw-19.2/BSEAV/lib/security/bcrypt/Makefile	2021-12-16 16:59:58.502881987 +0530
+@@ -205,7 +205,8 @@ include $(BSEAV)/opensource/openssl/b_op
+ ifeq ($(B_BUILD_DEPS),n)
+ ssl_lib:
+ else
+-ssl_lib: b_openssl_target_build
++# ssl_lib: b_openssl_target_build
++ssl_lib: 
+ endif
+ 
+ .PHONY : prep_folder
+diff -pruN bcm-refsw-19.2.orig/BSEAV/lib/security/common_drm/Makefile bcm-refsw-19.2/BSEAV/lib/security/common_drm/Makefile
+--- bcm-refsw-19.2.orig/BSEAV/lib/security/common_drm/Makefile	2020-06-24 14:44:51.000000000 +0530
++++ bcm-refsw-19.2/BSEAV/lib/security/common_drm/Makefile	2021-12-16 16:53:12.362120765 +0530
+@@ -529,7 +529,8 @@ include $(BSEAV)/opensource/openssl/b_op
+ ifeq ($(B_BUILD_DEPS),n)
+  prep_openssl:
+ else
+- prep_openssl: b_openssl_target_build
++# prep_openssl: b_openssl_target_build
++ prep_openssl: 
+ endif
+ 
+ 
